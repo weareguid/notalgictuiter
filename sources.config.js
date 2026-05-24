@@ -55,14 +55,6 @@ export const SOURCES = [
     filterKeywords: MEXICO_POLITICS_KEYWORDS,
   },
   {
-    id: 'nmas',
-    name: 'N+',
-    // If this 404s, check nmas.com.mx for a current RSS link
-    url: 'https://www.nmas.com.mx/feed/',
-    category: 'mexico',
-    domain: 'nmas.com.mx',
-  },
-  {
     id: 'radioformula',
     name: 'Radio Fórmula',
     // WordPress-style feed; if 404, try /rss or /rss.xml
