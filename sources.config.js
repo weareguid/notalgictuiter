@@ -169,6 +169,69 @@ export const KEYWORDS_WORLD = {
 // Flat array derived from KEYWORDS_WORLD — used by filterKeywords on international sources
 export const WORLD_KEYWORDS = Object.values(KEYWORDS_WORLD).flat();
 
+/**
+ * Business & markets keyword taxonomy.
+ * Applied to WSJ (and any finance-focused source) in addition to WORLD_KEYWORDS.
+ */
+export const KEYWORDS_BUSINESS = {
+  // Mercados globales
+  mercados: [
+    'S&P 500', 'S&P', 'Dow Jones', 'Nasdaq', 'mercados',
+    'bolsa', 'Wall Street', 'BMV', 'índice bursátil',
+    'bear market', 'bull market', 'rally', 'corrección',
+  ],
+
+  // Macro / política monetaria
+  macro: [
+    'inflación', 'deflación', 'IPC', 'INPC',
+    'tasas de interés', 'tasa de referencia', 'tasa de fondos federales',
+    'política monetaria', 'política fiscal',
+    'recesión', 'estanflación', 'PIB', 'crecimiento económico',
+    'tipo de cambio', 'peso', 'dólar', 'MXN', 'USD',
+  ],
+
+  // Bancos centrales
+  bancos_centrales: [
+    'FED', 'Federal Reserve', 'FOMC', 'Banxico',
+    'banco central', 'reunión de política monetaria',
+    'minuta', 'dot plot', 'forward guidance',
+    'recorte de tasas', 'alza de tasas', 'pausa',
+  ],
+
+  // Personas clave
+  personas: [
+    'Powell', 'Jerome Powell',
+    'Warsh', 'Kevin Warsh',
+    'Waller', 'Goolsbee', 'Kashkari',
+    'Victoria Rodríguez', 'Victoria Rodríguez Ceja',
+  ],
+
+  // Deuda y bonos
+  bonos: [
+    'bonos', 'treasuries', 'rendimiento', 'yield',
+    'curva de rendimiento', 'spread', 'deuda soberana',
+    'calificadora', "Moody's", 'Fitch', 'S&P Global',
+    'bono M', 'CETES',
+  ],
+
+  // Comercio / macro MX
+  comercio: [
+    'remesas', 'inversión extranjera', 'IED',
+    'aranceles', 'tarifas', 'nearshoring', 'relocalización',
+    'exportaciones', 'importaciones', 'balanza comercial',
+    'reservas internacionales',
+  ],
+
+  // Energía con impacto financiero
+  energia: [
+    'petróleo', 'WTI', 'Brent', 'crudo', 'OPEP',
+    'gas natural', 'precio de la gasolina',
+  ],
+};
+
+// Flat array derived from KEYWORDS_BUSINESS
+export const BUSINESS_KEYWORDS = Object.values(KEYWORDS_BUSINESS).flat();
+
 export const SOURCES = [
   // ─── MÉXICO ──────────────────────────────────────────────────────────────
   {
@@ -291,7 +354,8 @@ export const SOURCES = [
     url: 'https://feeds.a.dj.com/rss/RSSWorldNews.xml',
     category: 'international',
     domain: 'wsj.com',
-    filterKeywords: WORLD_KEYWORDS,
+    // WSJ covers both geopolitics and markets — use both keyword sets
+    filterKeywords: [...WORLD_KEYWORDS, ...BUSINESS_KEYWORDS],
   },
   {
     id: 'wapo',
