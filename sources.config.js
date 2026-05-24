@@ -10,37 +10,55 @@
  */
 
 /**
- * Keywords for Mexican politics filtering.
- * Accent-insensitive — "secretaría" is matched by "secretaria".
- * Edit this list to broaden or narrow what shows up from filtered sources.
+ * Structured keyword taxonomy for Mexican politics filtering.
+ * Accent-insensitive — "Sheinbaum" matches "sheinbaum", "Sémar" matches "semar".
+ * Edit any group to broaden or narrow what shows up from filtered sources.
  */
-export const MEXICO_POLITICS_KEYWORDS = [
-  // Presidenta y ejecutivo
-  'sheinbaum', 'presidenta', 'presidencia', 'gobierno federal', 'poder ejecutivo',
-  'secretaria', 'secretario',
-  // Congreso
-  'senado', 'senador', 'senadora',
-  'diputado', 'diputada', 'diputados',
-  'camara de diputados', 'congreso', 'legislativo', 'legislatura',
-  // Partidos y elecciones
-  'morena', 'partido accion nacional', 'partido revolucionario institucional',
-  'movimiento ciudadano', 'partido del trabajo', 'partido verde',
-  'partido', 'candidato', 'candidata', 'eleccion', 'electoral',
-  // Deportes permitidos
-  'mundial', 'copa mundial', 'world cup', 'seleccion mexicana', 'tri',
-  // Instituciones
-  'suprema corte', 'scjn', 'poder judicial', 'ministro', 'ministra',
-  'fgr', 'fiscalia', 'fiscal general', 'procurador',
-  'ine', 'gobernador', 'gobernadora', 'gobierno de',
-  // Temas
-  'politica', 'politico',
-  'reforma constitucional', 'reforma electoral', 'reforma judicial', 'reforma',
-  'presupuesto federal', 'presupuesto', 'iniciativa de ley',
-  'constitucion', 'constitucional',
-  // Figuras
-  'noroña', 'monreal', 'adán augusto', 'adan augusto', 'mario delgado',
-  'xochitl', 'galvez', 'claudia sheinbaum',
-];
+export const KEYWORDS = {
+  personas: [
+    'Sheinbaum', 'AMLO', 'López Obrador', 'Claudia Sheinbaum',
+    'Ebrard', 'Noroña', 'Adán Augusto', 'Xóchitl Gálvez',
+    'Mario Delgado', 'Ramírez de la O', 'Alito Moreno',
+    'Santiago Creel', 'Lilly Téllez', 'Ricardo Anaya',
+    'Dante Delgado', 'Cuauhtémoc Blanco', 'Layda Sansores',
+  ],
+
+  partidos: [
+    'Morena', 'PAN', 'PRI', 'PRD', 'MC', 'Movimiento Ciudadano',
+    'PVEM', 'PT', 'partido verde', 'oposición', 'oficialismo',
+    'Frente Amplio', 'Bloque Opositor',
+  ],
+
+  instituciones: [
+    'SCJN', 'INE', 'TEPJF', 'Senado', 'Cámara de Diputados',
+    'Congreso', 'Suprema Corte', 'Banxico', 'SAT', 'IMSS',
+    'ISSSTE', 'Pemex', 'CFE', 'Segob', 'SRE', 'SHCP',
+    'Sedena', 'Semar', 'FGR', 'CJF', 'Poder Judicial',
+  ],
+
+  temas: [
+    'reforma judicial', 'Plan C', 'plataforma',
+    'nearshoring', 'T-MEC', 'USMCA',
+    'seguridad', 'militarización', 'Guardia Nacional',
+    'cartel', 'crimen organizado', 'desapariciones',
+    'feminicidio', 'violencia de género',
+    'presupuesto', 'deuda', 'economía', 'inflación',
+    'agua', 'sequía', 'crisis hídrica',
+    'elecciones', '2027', 'revocación',
+    'NAIM', 'AIFA', 'Tren Maya', 'Corredor Interoceánico',
+    'litio', 'minería', 'energía',
+    'migrantes', 'migración', 'frontera',
+  ],
+
+  estados: [
+    'Guerrero', 'Chiapas', 'Oaxaca', 'Tamaulipas',
+    'Sinaloa', 'Jalisco', 'CDMX', 'Veracruz',
+    'Michoacán', 'Guanajuato',
+  ],
+};
+
+// Flat array derived from KEYWORDS — used by filterKeywords on each source
+export const MEXICO_POLITICS_KEYWORDS = Object.values(KEYWORDS).flat();
 
 export const SOURCES = [
   // ─── MÉXICO ──────────────────────────────────────────────────────────────
