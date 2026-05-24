@@ -349,12 +349,20 @@ export const SOURCES = [
     filterKeywords: WORLD_KEYWORDS,
   },
   {
-    id: 'wsj',
-    name: 'WSJ World',
-    url: 'https://feeds.a.dj.com/rss/RSSWorldNews.xml',
+    id: 'bloomberg',
+    name: 'Bloomberg Markets',
+    // WSJ public feeds are frozen at Jan 2025 — replaced with Bloomberg Markets
+    url: 'https://feeds.bloomberg.com/markets/news.rss',
     category: 'international',
-    domain: 'wsj.com',
-    // WSJ covers both geopolitics and markets — use both keyword sets
+    domain: 'bloomberg.com',
+    filterKeywords: [...WORLD_KEYWORDS, ...BUSINESS_KEYWORDS],
+  },
+  {
+    id: 'cnbc',
+    name: 'CNBC Finance',
+    url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664',
+    category: 'international',
+    domain: 'cnbc.com',
     filterKeywords: [...WORLD_KEYWORDS, ...BUSINESS_KEYWORDS],
   },
   {
