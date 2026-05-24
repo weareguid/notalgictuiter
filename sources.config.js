@@ -381,22 +381,26 @@ export const SOURCES = [
  * Matches articles from ANY source (México + Internacional).
  */
 export const KEYWORDS_WC2026 = {
+  // Rule: only terms that appear almost exclusively in a soccer/World Cup context.
+  // No country names, no city names — those are too generic and pollute other tabs.
 
-  // --- GENERAL TOURNAMENT ---
+  // --- TORNEO (términos exclusivos del Mundial) ---
   torneo: [
     'Mundial 2026', 'World Cup 2026', 'FIFA 2026', 'Copa del Mundo',
-    'fase de grupos', 'octavos', 'cuartos', 'semifinal', 'final',
-    'round of 32', 'knockout', 'VAR', 'FIFA',
-    'Azteca', 'Estadio Azteca', 'Akron', 'Estadio BBVA',
-    'MetLife', 'SoFi Stadium', 'AT&T Stadium',
+    'fase de grupos', 'octavos de final', 'cuartos de final',
+    'semifinal del Mundial', 'final del Mundial',
+    'round of 32', 'knockout stage',
+    'Estadio Azteca', 'Estadio Akron', 'Estadio BBVA',
+    'MetLife Stadium', 'SoFi Stadium', 'AT&T Stadium',
+    'sede del Mundial', 'anfitrión del Mundial',
   ],
 
-  // --- EL TRI (prioridad máxima) ---
+  // --- EL TRI ---
   mexico: [
-    'El Tri', 'Selección Mexicana', 'FMF',
+    'El Tri', 'Selección Mexicana', 'selección mexicana de futbol', 'FMF',
     'Javier Aguirre',
     // Porteros
-    'Ochoa', 'Guillermo Ochoa', 'Raúl Rangel',
+    'Guillermo Ochoa', 'Raúl Rangel',
     // Defensas
     'Edson Álvarez', 'Johan Vásquez', 'César Montes',
     'Julián Araujo', 'Jorge Sánchez',
@@ -406,39 +410,24 @@ export const KEYWORDS_WC2026 = {
     // Delanteros
     'Raúl Jiménez', 'Santiago Giménez', 'César Huerta',
     'Roberto Alvarado', 'Julián Quiñones',
-    // Grupo A
-    'Sudáfrica', 'South Africa', 'Corea del Sur', 'South Korea',
-    'Chequia', 'Czech Republic', 'República Checa',
   ],
 
-  // --- FAVORITOS / SELECCIONES CLAVE ---
+  // --- SELECCIONES (solo con contexto de selección, no nombre del país solo) ---
   selecciones: [
-    // Américas
-    'Argentina', 'Brasil', 'Brazil', 'Uruguay', 'Colombia',
-    'Estados Unidos', 'USMNT', 'Canadá',
-    // Europa
-    'España', 'Spain', 'Francia', 'France', 'Inglaterra', 'England',
-    'Alemania', 'Germany', 'Portugal', 'Países Bajos', 'Netherlands',
-    'Bélgica', 'Belgium', 'Croatia', 'Croacia',
-    // Resto
-    'Marruecos', 'Morocco', 'Japón', 'Japan',
-    'Senegal', 'Australia',
+    'USMNT', 'USWNT', 'selección argentina', 'selección brasileña',
+    'selección española', 'selección francesa', 'selección inglesa',
+    'selección alemana', 'selección portuguesa', 'selección marroquí',
+    'selección uruguaya', 'selección colombiana',
+    'Les Bleus', 'Die Mannschaft', 'Azzurri', 'Three Lions',
+    'Albiceleste', 'Seleção',
   ],
 
-  // --- ESTRELLAS MUNDIALES ---
+  // --- ESTRELLAS (apellidos únicos en contexto deportivo) ---
   jugadores: [
-    'Mbappé', 'Vinicius', 'Bellingham', 'Lamine Yamal',
+    'Mbappé', 'Vinicius Jr', 'Bellingham', 'Lamine Yamal',
     'Pedri', 'Rodri', 'Haaland', 'De Bruyne',
     'Salah', 'Lewandowski', 'Son Heung-min',
-    'Messi', 'Di María', 'Álvarez Julian',  // Argentina
-    'Raphinha', 'Rodrygo',                   // Brasil
-    'Ronaldo', 'Bruno Fernandes',            // Portugal
-  ],
-
-  // --- SEDES EN MÉXICO ---
-  sedes_mexico: [
-    'Ciudad de México', 'Guadalajara', 'Monterrey',
-    'Azteca', 'Estadio Akron', 'Estadio BBVA',
+    'Raphinha', 'Rodrygo', 'Bruno Fernandes',
   ],
 };
 
