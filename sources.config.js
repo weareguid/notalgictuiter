@@ -305,6 +305,16 @@ export const SOURCES = [
     domain: 'aristeguinoticias.com',
     filterKeywords: MEXICO_POLITICS_KEYWORDS,
   },
+  {
+    id: 'jornada',
+    name: 'La Jornada',
+    // Blocks generic RSS crawlers — requires browser-like headers
+    url: 'https://www.jornada.com.mx/rss/politica.xml',
+    category: 'mexico',
+    domain: 'jornada.com.mx',
+    browserHeaders: true,
+    filterKeywords: MEXICO_POLITICS_KEYWORDS,
+  },
 
   // ─── INTERNACIONAL ───────────────────────────────────────────────────────
   {

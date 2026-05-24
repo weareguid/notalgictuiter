@@ -5,12 +5,28 @@ import { SOURCES } from '../../../sources.config.js';
 // Always run dynamically — never serve a cached build-time snapshot
 export const dynamic = 'force-dynamic';
 
+const BROWSER_HEADERS = {
+  'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'Accept-Language': 'es-MX,es;q=0.9,en;q=0.8',
+  'Referer': 'https://www.google.com/',
+};
+
 const parser = new Parser({
   timeout: 12000,
   headers: {
     'User-Agent': 'Mozilla/5.0 (compatible; NostalgicTuiter/1.0; RSS Reader)',
     Accept: 'application/rss+xml, application/xml, text/xml, */*',
   },
+  customFields: {
+    item: [['media:thumbnail', 'mediaThumbnail'], ['media:content', 'mediaContent']],
+  },
+});
+
+// For sources that block generic RSS crawlers — uses full browser headers
+const browserParser = new Parser({
+  timeout: 12000,
+  headers: BROWSER_HEADERS,
   customFields: {
     item: [['media:thumbnail', 'mediaThumbnail'], ['media:content', 'mediaContent']],
   },
@@ -108,7 +124,7 @@ async function fetchGoogleNewsSitemap(source) {
 async function fetchSource(source) {
   if (source.type === 'gnews-sitemap') return fetchGoogleNewsSitemap(source);
   try {
-    const feed = await parser.parseURL(source.url);
+    const feed = await (source.browserHeaders ? browserParser : parser).parseURL(source.url);
     const mapped = feed.items.slice(0, 40).map((item) => ({
       id: item.guid || item.link || `${source.id}-${item.title}`,
       title: (item.title || 'Sin título').replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1').trim(),
