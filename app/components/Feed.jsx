@@ -97,7 +97,7 @@ export default function Feed() {
   const handleRefresh = useCallback(() => {
     clearInterval(timerRef.current);
     timerRef.current = setInterval(() => fetchAll(true), REFRESH_MS);
-    fetchAll(false);
+    fetchAll(true);
   }, [fetchAll]);
 
   const markAsRead = useCallback((id) => {

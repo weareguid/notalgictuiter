@@ -133,6 +133,12 @@ export async function GET() {
 
   return NextResponse.json(
     { items, lastUpdated: new Date().toISOString() },
-    { headers: { 'Cache-Control': 'no-store' } }
+    {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
+        'CDN-Cache-Control': 'no-store',
+        'Vercel-CDN-Cache-Control': 'no-store',
+      },
+    }
   );
 }
