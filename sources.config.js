@@ -273,17 +273,74 @@ export const SOURCES = [
 ];
 
 /**
- * Keywords for the temporary World Cup 2026 section.
+ * Structured keyword taxonomy for the World Cup 2026 section.
+ * ⚠️ TEMPORARY — remove after July 19, 2026.
  * Matches articles from ANY source (México + Internacional).
  */
-export const WORLDCUP_KEYWORDS = [
-  'mundial', 'copa mundial', 'world cup',
-  'mundial 2026', 'world cup 2026',
-  'seleccion mexicana', 'el tri',
-  'concacaf', 'estadio azteca',
-  'fifa', 'eliminatoria',
-  'guadalajara 2026', 'monterrey 2026',
-];
+export const KEYWORDS_WC2026 = {
+
+  // --- GENERAL TOURNAMENT ---
+  torneo: [
+    'Mundial 2026', 'World Cup 2026', 'FIFA 2026', 'Copa del Mundo',
+    'fase de grupos', 'octavos', 'cuartos', 'semifinal', 'final',
+    'round of 32', 'knockout', 'VAR', 'FIFA',
+    'Azteca', 'Estadio Azteca', 'Akron', 'Estadio BBVA',
+    'MetLife', 'SoFi Stadium', 'AT&T Stadium',
+  ],
+
+  // --- EL TRI (prioridad máxima) ---
+  mexico: [
+    'El Tri', 'Selección Mexicana', 'FMF',
+    'Javier Aguirre',
+    // Porteros
+    'Ochoa', 'Guillermo Ochoa', 'Raúl Rangel',
+    // Defensas
+    'Edson Álvarez', 'Johan Vásquez', 'César Montes',
+    'Julián Araujo', 'Jorge Sánchez',
+    // Mediocampistas
+    'Luis Chávez', 'Orbelin Pineda', 'Efraín Álvarez',
+    'Obed Vargas', 'Álvaro Fidalgo',
+    // Delanteros
+    'Raúl Jiménez', 'Santiago Giménez', 'César Huerta',
+    'Roberto Alvarado', 'Julián Quiñones',
+    // Grupo A
+    'Sudáfrica', 'South Africa', 'Corea del Sur', 'South Korea',
+    'Chequia', 'Czech Republic', 'República Checa',
+  ],
+
+  // --- FAVORITOS / SELECCIONES CLAVE ---
+  selecciones: [
+    // Américas
+    'Argentina', 'Brasil', 'Brazil', 'Uruguay', 'Colombia',
+    'Estados Unidos', 'USMNT', 'Canadá',
+    // Europa
+    'España', 'Spain', 'Francia', 'France', 'Inglaterra', 'England',
+    'Alemania', 'Germany', 'Portugal', 'Países Bajos', 'Netherlands',
+    'Bélgica', 'Belgium', 'Croatia', 'Croacia',
+    // Resto
+    'Marruecos', 'Morocco', 'Japón', 'Japan',
+    'Senegal', 'Australia',
+  ],
+
+  // --- ESTRELLAS MUNDIALES ---
+  jugadores: [
+    'Mbappé', 'Vinicius', 'Bellingham', 'Lamine Yamal',
+    'Pedri', 'Rodri', 'Haaland', 'De Bruyne',
+    'Salah', 'Lewandowski', 'Son Heung-min',
+    'Messi', 'Di María', 'Álvarez Julian',  // Argentina
+    'Raphinha', 'Rodrygo',                   // Brasil
+    'Ronaldo', 'Bruno Fernandes',            // Portugal
+  ],
+
+  // --- SEDES EN MÉXICO ---
+  sedes_mexico: [
+    'Ciudad de México', 'Guadalajara', 'Monterrey',
+    'Azteca', 'Estadio Akron', 'Estadio BBVA',
+  ],
+};
+
+// Flat array derived from KEYWORDS_WC2026 — used by the World Cup tab filter
+export const WORLDCUP_KEYWORDS = Object.values(KEYWORDS_WC2026).flat();
 
 /**
  * Bluesky handles to follow.
