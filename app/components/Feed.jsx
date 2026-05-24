@@ -144,8 +144,6 @@ export default function Feed() {
         <FilterBar
           activeCategory={activeCategory}
           onCategoryChange={setActiveCategory}
-          activeSources={activeSources}
-          onToggleSource={toggleSource}
           totalItems={filteredItems.length}
         />
 
