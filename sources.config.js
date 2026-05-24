@@ -98,12 +98,20 @@ export const SOURCES = [
     filterKeywords: MEXICO_POLITICS_KEYWORDS,
   },
   {
-    id: 'excelsior',
-    name: 'Excélsior',
-    // /rss/politica stopped updating (stale); main /rss/ feed is live and filtered by keywords
-    url: 'https://www.excelsior.com.mx/rss/',
+    id: 'expansion',
+    name: 'Expansión',
+    url: 'https://expansion.mx/rss',
     category: 'mexico',
-    domain: 'excelsior.com.mx',
+    domain: 'expansion.mx',
+    filterKeywords: MEXICO_POLITICS_KEYWORDS,
+  },
+  {
+    id: 'infobae',
+    name: 'Infobae México',
+    // Arc Publishing main feed — /category/america/mexico/ only returns evergreen articles
+    url: 'https://www.infobae.com/arc/outboundfeeds/rss/?outputType=xml',
+    category: 'mexico',
+    domain: 'infobae.com',
     filterKeywords: MEXICO_POLITICS_KEYWORDS,
   },
   {
