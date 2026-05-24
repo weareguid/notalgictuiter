@@ -100,8 +100,8 @@ export const SOURCES = [
   {
     id: 'excelsior',
     name: 'Excélsior',
-    // /rss/politica is the verified politics section feed
-    url: 'https://www.excelsior.com.mx/rss/politica',
+    // /rss/politica stopped updating (stale); main /rss/ feed is live and filtered by keywords
+    url: 'https://www.excelsior.com.mx/rss/',
     category: 'mexico',
     domain: 'excelsior.com.mx',
     filterKeywords: MEXICO_POLITICS_KEYWORDS,

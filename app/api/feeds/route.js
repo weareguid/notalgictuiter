@@ -111,7 +111,7 @@ async function fetchSource(source) {
     const feed = await parser.parseURL(source.url);
     const mapped = feed.items.slice(0, 40).map((item) => ({
       id: item.guid || item.link || `${source.id}-${item.title}`,
-      title: (item.title || 'Sin título').trim(),
+      title: (item.title || 'Sin título').replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1').trim(),
       excerpt: cleanExcerpt(item.contentSnippet || item.summary || ''),
       url: item.link || '',
       sourceId: source.id,
