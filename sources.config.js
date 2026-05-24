@@ -55,6 +55,16 @@ export const KEYWORDS = {
     'Sinaloa', 'Jalisco', 'CDMX', 'Veracruz',
     'Michoacán', 'Guanajuato',
   ],
+
+  mercados_mx: [
+    'Banxico', 'política monetaria', 'tasa de interés', 'tasas de interés',
+    'inflación', 'tipo de cambio', 'peso mexicano',
+    'BMV', 'Bolsa Mexicana', 'IPC',
+    'SHCP', 'Ramírez de la O', 'deuda pública', 'déficit fiscal',
+    'Pemex', 'CFE', 'petróleo', 'precio del petróleo',
+    'PIB', 'crecimiento económico', 'recesión',
+    'remesas', 'inversión extranjera', 'nearshoring',
+  ],
 };
 
 // Flat array derived from KEYWORDS — used by filterKeywords on each source
@@ -132,6 +142,27 @@ export const KEYWORDS_WORLD = {
     'aranceles', 'tariffs', 'guerra comercial', 'trade war',
     'derechos humanos', 'human rights',
     'desinformación', 'misinformation',
+  ],
+
+  // --- MERCADOS / ECONOMÍA GLOBAL ---
+  mercados: [
+    // Bancos centrales y política monetaria
+    'Federal Reserve', 'Fed', 'Powell', 'Warsh',
+    'ECB', 'European Central Bank', 'Bank of England',
+    'interest rates', 'rate cut', 'rate hike',
+    'monetary policy', 'política monetaria',
+    'inflation', 'inflación', 'CPI', 'PCE',
+    // Mercados
+    'S&P 500', 'Dow Jones', 'Nasdaq', 'stock market',
+    'Wall Street', 'NYSE', 'bond market', 'Treasury',
+    'yield', 'recession', 'GDP',
+    // Empresas / figuras
+    'Buffett', 'Berkshire', 'BlackRock', 'JPMorgan', 'Goldman Sachs',
+    // Crypto / activos alternativos
+    'Bitcoin', 'crypto', 'gold', 'oil prices', 'petróleo',
+    // Temas macro
+    'trade deficit', 'debt ceiling', 'fiscal policy',
+    'aranceles', 'tariffs', 'sanctions',
   ],
 };
 
