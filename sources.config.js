@@ -306,6 +306,14 @@ export const SOURCES = [
     filterKeywords: MEXICO_POLITICS_KEYWORDS,
   },
   {
+    id: 'reforma',
+    name: 'Reforma',
+    url: 'https://www.reforma.com/rss/portada.xml',
+    category: 'mexico',
+    domain: 'reforma.com',
+    filterKeywords: MEXICO_POLITICS_KEYWORDS,
+  },
+  {
     id: 'jornada',
     name: 'La Jornada',
     // Blocks generic RSS crawlers — requires browser-like headers
