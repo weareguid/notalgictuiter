@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "framework": "nextjs",
+  "buildCommand": "next build",
+  "devCommand": "next dev",
+  "installCommand": "npm install",
+  "functions": {
+    "app/api/feeds/route.js": {
+      "maxDuration": 30
+    },
+    "app/api/bluesky/route.js": {
+      "maxDuration": 15
+    }
+  }
+}
