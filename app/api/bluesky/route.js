@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { BskyAgent } from '@atproto/api';
 import { BLUESKY_HANDLES } from '../../../sources.config.js';
 
+// Always run dynamically — never serve a cached build-time snapshot
+export const dynamic = 'force-dynamic';
+
 async function fetchHandle(handle) {
   try {
     const agent = new BskyAgent({ service: 'https://public.api.bsky.app' });

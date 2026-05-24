@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import Parser from 'rss-parser';
 import { SOURCES } from '../../../sources.config.js';
 
+// Always run dynamically — never serve a cached build-time snapshot
+export const dynamic = 'force-dynamic';
+
 const parser = new Parser({
   timeout: 12000,
   headers: {
