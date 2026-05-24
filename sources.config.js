@@ -60,6 +60,84 @@ export const KEYWORDS = {
 // Flat array derived from KEYWORDS — used by filterKeywords on each source
 export const MEXICO_POLITICS_KEYWORDS = Object.values(KEYWORDS).flat();
 
+/**
+ * Structured keyword taxonomy for international news filtering.
+ */
+export const KEYWORDS_WORLD = {
+  // --- AMERICAS ---
+  usa: [
+    'Trump', 'Biden', 'Harris', 'MAGA', 'Republicans', 'Democrats',
+    'Congress', 'Senate', 'Supreme Court', 'White House',
+    'tariffs', 'sanctions', 'executive order',
+    'Rubio', 'Vance', 'RFK', 'Musk', 'DOGE',
+  ],
+
+  latinoamerica: [
+    'Milei', 'Petro', 'Lula', 'Boric', 'Bukele',
+    'Maduro', 'Venezuela', 'Cuba', 'Nicaragua',
+    'Ortega', 'Díaz-Canel',
+    'Mercosur', 'CELAC', 'OEA', 'OAS',
+    'golpe', 'coup', 'crisis política',
+  ],
+
+  // --- EUROPA ---
+  europa: [
+    'Macron', 'Scholz', 'Meloni', 'Sánchez', 'Starmer',
+    'Von der Leyen', 'Michel', 'NATO', 'OTAN',
+    'Unión Europea', 'European Union', 'eurozona',
+    'elecciones europeas', 'ultraderecha', 'far right',
+    'Le Pen', 'AfD', 'Orban',
+  ],
+
+  // --- RUSIA / UCRANIA ---
+  rusia_ucrania: [
+    'Putin', 'Zelensky', 'Zelenski', 'Rusia', 'Ucrania',
+    'Russia', 'Ukraine', 'Kremlin', 'guerra', 'war',
+    'OTAN', 'NATO', 'armisticio', 'ceasefire',
+    'Bielorrusia', 'Lukashenko',
+  ],
+
+  // --- MEDIO ORIENTE ---
+  medio_oriente: [
+    'Gaza', 'Israel', 'Netanyahu', 'Hamas', 'Hezbollah',
+    'West Bank', 'Cisjordania', 'IDF', 'UNRWA',
+    'Irán', 'Iran', 'Khamenei', 'Arabia Saudita',
+    'Yemen', 'Houthis', 'Siria', 'Syria',
+    'dos estados', 'two-state', 'alto al fuego', 'ceasefire',
+  ],
+
+  // --- ASIA ---
+  asia: [
+    'China', 'Xi Jinping', 'Taiwán', 'Taiwan',
+    'Corea del Norte', 'Kim Jong-un', 'North Korea',
+    'Japón', 'India', 'Modi', 'Pakistán',
+    'Mar del Sur de China', 'South China Sea',
+    'BRICS', 'ASEAN',
+  ],
+
+  // --- AFRICA ---
+  africa: [
+    'Sahel', 'Mali', 'Níger', 'Burkina Faso',
+    'Sudan', 'Sudán', 'Etiopía', 'Somalia',
+    'golpe militar', 'junta', 'Wagner',
+    'Sudáfrica', 'ANC', 'Ramaphosa',
+  ],
+
+  // --- ORGANISMOS / TEMAS GLOBALES ---
+  global: [
+    'ONU', 'UN', 'FMI', 'IMF', 'Banco Mundial', 'World Bank',
+    'OMC', 'WTO', 'G7', 'G20',
+    'cambio climático', 'climate change', 'COP',
+    'inteligencia artificial', 'AI regulation',
+    'aranceles', 'tariffs', 'guerra comercial', 'trade war',
+    'derechos humanos', 'human rights',
+    'desinformación', 'misinformation',
+  ],
+};
+
+// Flat array derived from KEYWORDS_WORLD — used by filterKeywords on international sources
+export const WORLD_KEYWORDS = Object.values(KEYWORDS_WORLD).flat();
+
 export const SOURCES = [
   // ─── MÉXICO ──────────────────────────────────────────────────────────────
   {
@@ -141,6 +219,7 @@ export const SOURCES = [
     url: 'https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml',
     category: 'international',
     domain: 'nytimes.com',
+    filterKeywords: WORLD_KEYWORDS,
   },
   {
     id: 'nyt-world',
@@ -148,6 +227,7 @@ export const SOURCES = [
     url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml',
     category: 'international',
     domain: 'nytimes.com',
+    filterKeywords: WORLD_KEYWORDS,
   },
   {
     id: 'bbc',
@@ -155,6 +235,7 @@ export const SOURCES = [
     url: 'https://feeds.bbci.co.uk/news/world/rss.xml',
     category: 'international',
     domain: 'bbc.com',
+    filterKeywords: WORLD_KEYWORDS,
   },
   {
     id: 'ft',
@@ -163,6 +244,7 @@ export const SOURCES = [
     url: 'https://www.ft.com/rss/home',
     category: 'international',
     domain: 'ft.com',
+    filterKeywords: WORLD_KEYWORDS,
   },
   {
     id: 'politico',
@@ -170,6 +252,7 @@ export const SOURCES = [
     url: 'https://rss.politico.com/politics-news.xml',
     category: 'international',
     domain: 'politico.com',
+    filterKeywords: WORLD_KEYWORDS,
   },
   {
     id: 'wsj',
@@ -177,6 +260,7 @@ export const SOURCES = [
     url: 'https://feeds.a.dj.com/rss/RSSWorldNews.xml',
     category: 'international',
     domain: 'wsj.com',
+    filterKeywords: WORLD_KEYWORDS,
   },
   {
     id: 'wapo',
@@ -184,6 +268,7 @@ export const SOURCES = [
     url: 'https://feeds.washingtonpost.com/rss/politics',
     category: 'international',
     domain: 'washingtonpost.com',
+    filterKeywords: WORLD_KEYWORDS,
   },
 ];
 
