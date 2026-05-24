@@ -290,8 +290,8 @@ export const SOURCES = [
   {
     id: 'infobae',
     name: 'Infobae México',
-    // Arc Publishing main feed — /category/america/mexico/ only returns evergreen articles
-    url: 'https://www.infobae.com/arc/outboundfeeds/rss/?outputType=xml',
+    // Mexico-specific category feed — avoids leaking Argentine local/provincial content
+    url: 'https://www.infobae.com/arc/outboundfeeds/rss/category/mexico/?outputType=xml',
     category: 'mexico',
     domain: 'infobae.com',
     filterKeywords: MEXICO_POLITICS_KEYWORDS,
