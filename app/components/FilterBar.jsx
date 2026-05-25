@@ -1,13 +1,10 @@
 'use client';
 
-import { BLUESKY_HANDLES } from '../../sources.config.js';
-
 const CATEGORIES = [
   { id: 'all', label: 'All' },
   { id: 'mexico', label: 'México' },
   { id: 'international', label: 'Internacional' },
   { id: 'worldcup', label: 'World Cup 2026' },
-  ...(BLUESKY_HANDLES.length > 0 ? [{ id: 'bluesky', label: 'Bluesky' }] : []),
 ];
 
 export default function FilterBar({ activeCategory, onCategoryChange, totalItems }) {
