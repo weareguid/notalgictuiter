@@ -391,6 +391,24 @@ export const SOURCES = [
     domain: 'washingtonpost.com',
     filterKeywords: WORLD_KEYWORDS,
   },
+
+  // ─── WORLD CUP 2026 ⚠️ REMOVE AFTER JULY 19, 2026 ────────────────────────
+  {
+    id: 'espn-soccer',
+    name: 'ESPN Soccer',
+    url: 'https://www.espn.com/espn/rss/soccer/news',
+    category: 'worldcup',
+    domain: 'espn.com',
+    filterKeywords: WORLDCUP_KEYWORDS,
+  },
+  {
+    id: 'marca-mundial',
+    name: 'MARCA Mundial',
+    url: 'https://e00-marca.uecdn.es/rss/futbol/mundial.xml',
+    category: 'worldcup',
+    domain: 'marca.com',
+    filterKeywords: WORLDCUP_KEYWORDS,
+  },
 ];
 
 /**

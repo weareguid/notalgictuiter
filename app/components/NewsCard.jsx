@@ -4,6 +4,7 @@ const BORDER_COLORS = {
   mexico: 'border-l-red-500',
   international: 'border-l-blue-600',
   bluesky: 'border-l-sky-400',
+  worldcup: 'border-l-emerald-500',
 };
 
 function formatTime(dateStr) {
