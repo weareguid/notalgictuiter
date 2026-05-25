@@ -483,6 +483,6 @@ export const WORLDCUP_KEYWORDS = Object.values(KEYWORDS_WC2026).flat();
  * Add the full handle, e.g. 'username.bsky.social'
  */
 export const BLUESKY_HANDLES = [
-  // 'journalismlab.bsky.social',
-  // 'benthompson.bsky.social',
+  'theguardian.com',
+  'pajaropolitico.bsky.social',
 ];
