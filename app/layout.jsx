@@ -5,11 +5,11 @@ const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
 export const metadata = {
   title: 'Nostalgic Tuiter',
-  description: 'Sin videos. Sin clickbait. Solo noticias.',
+  description: 'A news feed. No clickbait, no videos, no bs.',
   metadataBase: new URL('https://nostalgictuiter.com'),
   openGraph: {
     title: 'Nostalgic Tuiter',
-    description: 'Sin videos. Sin clickbait. Solo noticias.',
+    description: 'A news feed. No clickbait, no videos, no bs.',
     url: 'https://nostalgictuiter.com',
     siteName: 'Nostalgic Tuiter',
     locale: 'es_MX',
@@ -18,7 +18,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Nostalgic Tuiter',
-    description: 'Sin videos. Sin clickbait. Solo noticias.',
+    description: 'A news feed. No clickbait, no videos, no bs.',
   },
 };
 
