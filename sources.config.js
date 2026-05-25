@@ -394,6 +394,14 @@ export const SOURCES = [
 
   // ─── WORLD CUP 2026 ⚠️ REMOVE AFTER JULY 19, 2026 ────────────────────────
   {
+    id: 'foxsports-mx',
+    name: 'Fox Sports MX',
+    url: 'https://www.foxsports.com.mx/arc/outboundfeeds/rss/?outputType=xml',
+    category: 'worldcup',
+    domain: 'foxsports.com.mx',
+    filterKeywords: WORLDCUP_KEYWORDS,
+  },
+  {
     id: 'espn-soccer',
     name: 'ESPN Soccer',
     url: 'https://www.espn.com/espn/rss/soccer/news',
