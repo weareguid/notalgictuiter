@@ -128,6 +128,8 @@ export default function Feed() {
       if (!activeSources.has(item.sourceId)) return false;
       return matchesWorldCup(item);
     }
+    // World Cup sources are exclusive to the World Cup tab — hide from All
+    if (item.category === 'worldcup') return false;
     if (activeCategory !== 'all' && item.category !== activeCategory) return false;
     if (!activeSources.has(item.sourceId)) return false;
     return true;
