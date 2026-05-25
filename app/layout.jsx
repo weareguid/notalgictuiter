@@ -6,6 +6,20 @@ const inter = Inter({ subsets: ['latin'], display: 'swap' });
 export const metadata = {
   title: 'Nostalgic Tuiter',
   description: 'Tu feed personal de noticias — RSS + Bluesky en una sola vista',
+  metadataBase: new URL('https://nostalgictuiter.com'),
+  openGraph: {
+    title: 'Nostalgic Tuiter',
+    description: 'Tu feed personal de noticias — RSS + Bluesky en una sola vista',
+    url: 'https://nostalgictuiter.com',
+    siteName: 'Nostalgic Tuiter',
+    locale: 'es_MX',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Nostalgic Tuiter',
+    description: 'Tu feed personal de noticias — RSS + Bluesky en una sola vista',
+  },
 };
 
 export default function RootLayout({ children }) {
