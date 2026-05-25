@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import Header from './Header';
 import FilterBar from './FilterBar';
 import NewsCard from './NewsCard';
-import { SOURCES, WORLDCUP_KEYWORDS } from '../../sources.config.js';
+import { SOURCES, BLUESKY_HANDLES, WORLDCUP_KEYWORDS } from '../../sources.config.js';
 
 function normalizeText(str) {
   return str.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
@@ -17,7 +17,8 @@ function matchesWorldCup(item) {
 
 const REFRESH_MS = 5 * 60 * 1000; // 5 minutes
 
-const ALL_SOURCE_IDS = new Set(SOURCES.map((s) => s.id));
+const bskySrcIds = BLUESKY_HANDLES.map(({ handle }) => `bsky-${handle.replace(/[^a-z0-9]/gi, '-')}`);
+const ALL_SOURCE_IDS = new Set([...SOURCES.map((s) => s.id), ...bskySrcIds]);
 
 function SkeletonCard() {
   return (
@@ -124,11 +125,11 @@ export default function Feed() {
   // Filtered and sorted view
   const filteredItems = items.filter((item) => {
     if (activeCategory === 'worldcup') {
-      if (item.category !== 'bluesky' && !activeSources.has(item.sourceId)) return false;
+      if (!activeSources.has(item.sourceId)) return false;
       return matchesWorldCup(item);
     }
     if (activeCategory !== 'all' && item.category !== activeCategory) return false;
-    if (item.category !== 'bluesky' && !activeSources.has(item.sourceId)) return false;
+    if (!activeSources.has(item.sourceId)) return false;
     return true;
   });
 

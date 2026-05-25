@@ -5,7 +5,7 @@ import { BLUESKY_HANDLES } from '../../../sources.config.js';
 // Always run dynamically — never serve a cached build-time snapshot
 export const dynamic = 'force-dynamic';
 
-async function fetchHandle(handle) {
+async function fetchHandle({ handle, category }) {
   try {
     const agent = new BskyAgent({ service: 'https://public.api.bsky.app' });
 
@@ -33,7 +33,7 @@ async function fetchHandle(handle) {
           url: `https://bsky.app/profile/${post.author.handle}/post/${rkey}`,
           sourceId: `bsky-${handle.replace(/[^a-z0-9]/gi, '-')}`,
           sourceName: `@${post.author.handle}`,
-          category: 'bluesky',
+          category, // from config — not hardcoded to 'bluesky'
           domain: 'bsky.app',
           timestamp: post.indexedAt,
         };

@@ -481,9 +481,9 @@ export const SOURCES = [
 
 /**
  * Bluesky handles to follow.
- * Add the full handle, e.g. 'username.bsky.social'
+ * Each entry needs: handle (full Bluesky handle) and category ('mexico' | 'international' | 'worldcup')
+ * The category determines which tab the posts appear in — same as RSS sources.
  */
 export const BLUESKY_HANDLES = [
-  'theguardian.com',
-  'pajaropolitico.bsky.social',
+  { handle: 'pajaropolitico.bsky.social', category: 'mexico' },
 ];
