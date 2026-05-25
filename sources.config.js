@@ -453,13 +453,15 @@ export const SOURCES = [
   },
 
   // ─── WORLD CUP 2026 ⚠️ REMOVE AFTER JULY 19, 2026 ────────────────────────
+  // No filterKeywords on these sources — they are 100% sports media.
+  // Client-side matchesWorldCup() in Feed.jsx handles the keyword filter for the
+  // World Cup tab. Removing the server-side filter lets more relevant articles through.
   {
     id: 'foxsports-mx',
     name: 'Fox Sports MX',
     url: 'https://www.foxsports.com.mx/arc/outboundfeeds/rss/?outputType=xml',
     category: 'worldcup',
     domain: 'foxsports.com.mx',
-    filterKeywords: WORLDCUP_KEYWORDS,
   },
   {
     id: 'espn-soccer',
@@ -467,7 +469,6 @@ export const SOURCES = [
     url: 'https://www.espn.com/espn/rss/soccer/news',
     category: 'worldcup',
     domain: 'espn.com',
-    filterKeywords: WORLDCUP_KEYWORDS,
   },
   {
     id: 'marca-mundial',
@@ -475,7 +476,6 @@ export const SOURCES = [
     url: 'https://e00-marca.uecdn.es/rss/futbol/mundial.xml',
     category: 'worldcup',
     domain: 'marca.com',
-    filterKeywords: WORLDCUP_KEYWORDS,
   },
 ];
 
