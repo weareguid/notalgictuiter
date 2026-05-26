@@ -9,7 +9,7 @@ const CATEGORIES = [
 
 export default function FilterBar({ activeCategory, onCategoryChange, totalItems }) {
   return (
-    <div className="flex items-center gap-1 flex-wrap">
+    <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
       {CATEGORIES.map((cat) => (
         <button
           key={cat.id}
