@@ -23,7 +23,9 @@ function formatTime(dateStr) {
 }
 
 export default function NewsCard({ item, isRead, onRead }) {
-  const borderColor = BORDER_COLORS[item.category] || 'border-l-gray-400';
+  const borderColor = isRead
+    ? 'border-l-gray-300 dark:border-l-gray-700'
+    : BORDER_COLORS[item.category] || 'border-l-gray-400';
 
   return (
     <a
@@ -38,7 +40,6 @@ export default function NewsCard({ item, isRead, onRead }) {
         borderColor,
         'hover:shadow-md hover:border-gray-300 dark:hover:border-gray-700',
         'transition-all duration-150 cursor-pointer',
-        isRead ? 'opacity-60' : 'opacity-100',
       ].join(' ')}
     >
       {/* Source row */}
@@ -65,9 +66,7 @@ export default function NewsCard({ item, isRead, onRead }) {
       <h2
         className={[
           'text-sm font-semibold leading-snug line-clamp-2',
-          isRead
-            ? 'text-gray-400 dark:text-gray-600'
-            : 'text-gray-900 dark:text-gray-100 group-hover:text-blue-700 dark:group-hover:text-blue-400',
+          'text-gray-900 dark:text-gray-100 group-hover:text-blue-700 dark:group-hover:text-blue-400',
         ].join(' ')}
       >
         {item.title}
