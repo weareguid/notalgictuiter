@@ -50,12 +50,6 @@ export const KEYWORDS = {
     'migrantes', 'migración', 'frontera',
   ],
 
-  estados: [
-    'Guerrero', 'Chiapas', 'Oaxaca', 'Tamaulipas',
-    'Sinaloa', 'Jalisco', 'CDMX', 'Veracruz',
-    'Michoacán', 'Guanajuato',
-  ],
-
   mercados_mx: [
     'Banxico', 'política monetaria', 'tasa de interés', 'tasas de interés',
     'inflación', 'tipo de cambio', 'peso mexicano',
