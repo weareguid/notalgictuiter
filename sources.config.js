@@ -43,7 +43,7 @@ export const KEYWORDS = {
     'cartel', 'crimen organizado', 'desapariciones',
     'feminicidio', 'violencia de género',
     'presupuesto', 'deuda', 'economía', 'inflación',
-    'agua', 'sequía', 'crisis hídrica',
+    'sequía', 'crisis hídrica', 'escasez de agua',
     'elecciones', '2027', 'revocación',
     'NAIM', 'AIFA', 'Tren Maya', 'Corredor Interoceánico',
     'litio', 'minería', 'energía',
