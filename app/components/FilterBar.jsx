@@ -4,7 +4,7 @@ const CATEGORIES = [
   { id: 'all', label: 'All' },
   { id: 'mexico', label: 'México' },
   { id: 'international', label: 'Internacional' },
-  { id: 'worldcup', label: 'World Cup 2026' },
+  { id: 'worldcup', label: 'WC26' },
 ];
 
 export default function FilterBar({ activeCategory, onCategoryChange, totalItems }) {
