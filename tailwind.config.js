@@ -16,9 +16,5 @@ module.exports = {
       },
     },
   },
-  safelist: [
-    'border-l-gray-300',
-    'dark:border-l-gray-700',
-  ],
   plugins: [],
 };

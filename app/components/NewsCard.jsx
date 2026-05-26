@@ -23,9 +23,7 @@ function formatTime(dateStr) {
 }
 
 export default function NewsCard({ item, isRead, onRead }) {
-  const borderColor = isRead
-    ? 'border-l-gray-300 dark:border-l-gray-700'
-    : BORDER_COLORS[item.category] || 'border-l-gray-400';
+  const borderColor = BORDER_COLORS[item.category] || 'border-l-gray-400';
 
   return (
     <a
@@ -40,6 +38,7 @@ export default function NewsCard({ item, isRead, onRead }) {
         borderColor,
         'hover:shadow-md hover:border-gray-300 dark:hover:border-gray-700',
         'transition-all duration-150 cursor-pointer',
+        isRead ? 'opacity-70' : '',
       ].join(' ')}
     >
       {/* Source row */}
