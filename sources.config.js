@@ -413,14 +413,6 @@ export const SOURCES = [
     filterKeywords: WORLD_KEYWORDS,
   },
   {
-    id: 'politico',
-    name: 'Politico',
-    url: 'https://rss.politico.com/politics-news.xml',
-    category: 'international',
-    domain: 'politico.com',
-    filterKeywords: WORLD_KEYWORDS,
-  },
-  {
     id: 'bloomberg',
     name: 'Bloomberg Markets',
     // WSJ public feeds are frozen at Jan 2025 — replaced with Bloomberg Markets
@@ -430,19 +422,19 @@ export const SOURCES = [
     filterKeywords: [...WORLD_KEYWORDS, ...BUSINESS_KEYWORDS],
   },
   {
-    id: 'cnbc',
-    name: 'CNBC Finance',
-    url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664',
+    id: 'aljazeera',
+    name: 'Al Jazeera',
+    url: 'https://www.aljazeera.com/xml/rss/all.xml',
     category: 'international',
-    domain: 'cnbc.com',
-    filterKeywords: [...WORLD_KEYWORDS, ...BUSINESS_KEYWORDS],
+    domain: 'aljazeera.com',
+    filterKeywords: WORLD_KEYWORDS,
   },
   {
-    id: 'wapo',
-    name: 'Washington Post',
-    url: 'https://feeds.washingtonpost.com/rss/politics',
+    id: 'guardian-world',
+    name: 'The Guardian',
+    url: 'https://www.theguardian.com/world/rss',
     category: 'international',
-    domain: 'washingtonpost.com',
+    domain: 'theguardian.com',
     filterKeywords: WORLD_KEYWORDS,
   },
 
