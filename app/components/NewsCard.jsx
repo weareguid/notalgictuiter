@@ -38,7 +38,7 @@ export default function NewsCard({ item, isRead, onRead }) {
         borderColor,
         'hover:shadow-md hover:border-gray-300 dark:hover:border-gray-700',
         'transition-all duration-150 cursor-pointer',
-        isRead ? 'opacity-60' : '',
+        isRead ? 'opacity-50' : '',
       ].join(' ')}
     >
       {/* Source row */}
