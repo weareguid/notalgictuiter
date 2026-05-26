@@ -7,7 +7,7 @@ const CATEGORIES = [
   { id: 'worldcup', label: 'WC26' },
 ];
 
-export default function FilterBar({ activeCategory, onCategoryChange, totalItems }) {
+export default function FilterBar({ activeCategory, onCategoryChange }) {
   return (
     <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
       {CATEGORIES.map((cat) => (
@@ -27,9 +27,6 @@ export default function FilterBar({ activeCategory, onCategoryChange, totalItems
         </button>
       ))}
 
-      <span className="ml-auto text-xs text-gray-400 dark:text-gray-600 tabular-nums">
-        {totalItems} items
-      </span>
     </div>
   );
 }

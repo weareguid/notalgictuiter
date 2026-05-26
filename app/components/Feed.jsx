@@ -147,7 +147,6 @@ export default function Feed() {
         <FilterBar
           activeCategory={activeCategory}
           onCategoryChange={setActiveCategory}
-          totalItems={filteredItems.length}
         />
 
         {/* Error banner */}
