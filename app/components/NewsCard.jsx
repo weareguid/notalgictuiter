@@ -65,7 +65,7 @@ export default function NewsCard({ item, isRead, onRead }) {
       <h2
         className={[
           'text-sm font-semibold leading-snug line-clamp-2',
-          'text-gray-900 dark:text-gray-100 group-hover:text-blue-700 dark:group-hover:text-blue-400',
+          'text-gray-900 dark:text-gray-100',
         ].join(' ')}
       >
         {item.title}
