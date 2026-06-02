@@ -12,6 +12,9 @@
     scroll-behavior: smooth;
   }
 
+  /* Neutralize browser visited-link blue on news cards */
+  a:visited { color: inherit; }
+
   ::-webkit-scrollbar {
     width: 6px;
   }

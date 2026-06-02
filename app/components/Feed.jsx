@@ -66,14 +66,17 @@ export default function Feed() {
       const feedItems = feedsRes.status === 'fulfilled' ? feedsRes.value.items ?? [] : [];
       const bskyItems = bskyRes.status === 'fulfilled' ? bskyRes.value.items ?? [] : [];
 
-      // Deduplicate by URL — same story can appear in multiple RSS feeds
-      const seen = new Set();
+      // Deduplicate by URL, then by title+source (catches same article published twice with different URLs)
+      const seenUrls = new Set();
+      const seenTitles = new Set();
       const merged = [...feedItems, ...bskyItems]
         .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
         .filter((item) => {
-          const key = item.url || item.id;
-          if (seen.has(key)) return false;
-          seen.add(key);
+          const urlKey = item.url || item.id;
+          const titleKey = `${item.sourceId}::${normalizeText(item.title).trim()}`;
+          if (seenUrls.has(urlKey) || seenTitles.has(titleKey)) return false;
+          seenUrls.add(urlKey);
+          seenTitles.add(titleKey);
           return true;
         });
 
