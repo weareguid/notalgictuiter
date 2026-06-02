@@ -285,6 +285,20 @@ export const KEYWORDS_WC2026 = {
 // Flat array derived from KEYWORDS_WC2026 — used by the World Cup tab filter
 export const WORLDCUP_KEYWORDS = Object.values(KEYWORDS_WC2026).flat();
 
+/**
+ * Global title blocklist — articles whose title contains any of these phrases
+ * are dropped regardless of source or keyword matches.
+ * Use for recurring SEO/clickbait patterns (daily price updates, horoscopes, etc.)
+ */
+export const BLOCK_PHRASES = [
+  // Daily gas price SEO spam (Infobae publishes one per city, every day)
+  'precio de la gasolina',
+  'cómo está el precio de la gasolina',
+  // Daily exchange rate filler (not the same as macro FX analysis)
+  'precio del dólar hoy',
+  'tipo de cambio hoy',
+];
+
 export const SOURCES = [
   // ─── MÉXICO ──────────────────────────────────────────────────────────────
   {

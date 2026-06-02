@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import Parser from 'rss-parser';
-import { SOURCES } from '../../../sources.config.js';
+import { SOURCES, BLOCK_PHRASES } from '../../../sources.config.js';
 
 // Always run dynamically — never serve a cached build-time snapshot
 export const dynamic = 'force-dynamic';
@@ -35,6 +35,13 @@ const browserParser = new Parser({
 // Strip accents so "secretaría" matches keyword "secretaria"
 function normalize(str) {
   return str.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+}
+
+// Returns true if the title contains any globally blocked phrase
+function isBlocked(item) {
+  if (!BLOCK_PHRASES?.length) return false;
+  const title = normalize(item.title);
+  return BLOCK_PHRASES.some((phrase) => title.includes(normalize(phrase)));
 }
 
 function matchesKeywords(item, keywords) {
@@ -113,7 +120,7 @@ async function fetchGoogleNewsSitemap(source) {
     return articles
       .filter((a) => { if (seen.has(a.url)) return false; seen.add(a.url); return true; })
       .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
-      .filter((item) => matchesKeywords(item, source.filterKeywords))
+      .filter((item) => !isBlocked(item) && matchesKeywords(item, source.filterKeywords))
       .slice(0, 40);
   } catch (err) {
     console.warn(`[feeds] Failed to fetch sitemap "${source.name}": ${err.message}`);
@@ -136,7 +143,7 @@ async function fetchSource(source) {
       domain: source.domain,
       timestamp: item.isoDate || item.pubDate || new Date().toISOString(),
     }));
-    return mapped.filter((item) => matchesKeywords(item, source.filterKeywords));
+    return mapped.filter((item) => !isBlocked(item) && matchesKeywords(item, source.filterKeywords));
   } catch (err) {
     console.warn(`[feeds] Failed to fetch "${source.name}": ${err.message}`);
     return [];
