@@ -44,6 +44,16 @@ function isBlocked(item) {
   return BLOCK_PHRASES.some((phrase) => title.includes(normalize(phrase)));
 }
 
+// Drop articles stamped in the future (SEO evergreen trick — some outlets
+// future-date a ranking/index article to keep it pinned atop their own feed).
+// 2h tolerance absorbs legitimate clock skew between servers.
+const FUTURE_TOLERANCE_MS = 2 * 60 * 60 * 1000;
+function isFutureDated(item) {
+  const t = new Date(item.timestamp).getTime();
+  if (isNaN(t)) return false;
+  return t > Date.now() + FUTURE_TOLERANCE_MS;
+}
+
 function matchesKeywords(item, keywords) {
   if (!keywords?.length) return true;
   const haystack = normalize(`${item.title} ${item.excerpt}`);
@@ -120,7 +130,7 @@ async function fetchGoogleNewsSitemap(source) {
     return articles
       .filter((a) => { if (seen.has(a.url)) return false; seen.add(a.url); return true; })
       .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
-      .filter((item) => !isBlocked(item) && matchesKeywords(item, source.filterKeywords))
+      .filter((item) => !isFutureDated(item) && !isBlocked(item) && matchesKeywords(item, source.filterKeywords))
       .slice(0, 40);
   } catch (err) {
     console.warn(`[feeds] Failed to fetch sitemap "${source.name}": ${err.message}`);
@@ -143,7 +153,7 @@ async function fetchSource(source) {
       domain: source.domain,
       timestamp: item.isoDate || item.pubDate || new Date().toISOString(),
     }));
-    return mapped.filter((item) => !isBlocked(item) && matchesKeywords(item, source.filterKeywords));
+    return mapped.filter((item) => !isFutureDated(item) && !isBlocked(item) && matchesKeywords(item, source.filterKeywords));
   } catch (err) {
     console.warn(`[feeds] Failed to fetch "${source.name}": ${err.message}`);
     return [];
