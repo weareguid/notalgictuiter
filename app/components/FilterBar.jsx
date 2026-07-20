@@ -4,7 +4,6 @@ const CATEGORIES = [
   { id: 'all', label: 'All' },
   { id: 'mexico', label: 'México' },
   { id: 'international', label: 'Internacional' },
-  { id: 'worldcup', label: 'WC26' },
 ];
 
 export default function FilterBar({ activeCategory, onCategoryChange }) {
@@ -17,9 +16,7 @@ export default function FilterBar({ activeCategory, onCategoryChange }) {
           className={[
             'px-3 py-1 rounded-full text-sm font-medium transition-colors',
             activeCategory === cat.id
-              ? cat.id === 'worldcup'
-                ? 'bg-emerald-600 text-white dark:bg-emerald-500 dark:text-white'
-                : 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
+              ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
               : 'text-gray-500 hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-800',
           ].join(' ')}
         >

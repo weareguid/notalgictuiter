@@ -3,7 +3,6 @@
 const BORDER_COLORS = {
   mexico: 'border-l-red-500',
   international: 'border-l-blue-600',
-  worldcup: 'border-l-emerald-500',
 };
 
 function formatTime(dateStr) {

@@ -4,15 +4,10 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import Header from './Header';
 import FilterBar from './FilterBar';
 import NewsCard from './NewsCard';
-import { SOURCES, BLUESKY_HANDLES, WORLDCUP_KEYWORDS } from '../../sources.config.js';
+import { SOURCES, BLUESKY_HANDLES } from '../../sources.config.js';
 
 function normalizeText(str) {
   return str.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
-}
-
-function matchesWorldCup(item) {
-  const text = normalizeText(`${item.title} ${item.excerpt}`);
-  return WORLDCUP_KEYWORDS.some((kw) => text.includes(normalizeText(kw)));
 }
 
 const REFRESH_MS = 5 * 60 * 1000; // 5 minutes
@@ -127,12 +122,6 @@ export default function Feed() {
 
   // Filtered and sorted view
   const filteredItems = items.filter((item) => {
-    if (activeCategory === 'worldcup') {
-      if (!activeSources.has(item.sourceId)) return false;
-      return matchesWorldCup(item);
-    }
-    // World Cup sources are exclusive to the World Cup tab — hide from All
-    if (item.category === 'worldcup') return false;
     if (activeCategory !== 'all' && item.category !== activeCategory) return false;
     if (!activeSources.has(item.sourceId)) return false;
     return true;

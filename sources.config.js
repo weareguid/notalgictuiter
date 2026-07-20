@@ -227,65 +227,6 @@ export const KEYWORDS_BUSINESS = {
 export const BUSINESS_KEYWORDS = Object.values(KEYWORDS_BUSINESS).flat();
 
 /**
- * Structured keyword taxonomy for the World Cup 2026 section.
- * ⚠️ TEMPORARY — remove after July 19, 2026.
- * Matches articles from ANY source (México + Internacional).
- */
-export const KEYWORDS_WC2026 = {
-  // Rule: only terms that appear almost exclusively in a soccer/World Cup context.
-  // No country names, no city names — those are too generic and pollute other tabs.
-
-  // --- TORNEO (términos exclusivos del Mundial) ---
-  torneo: [
-    'Mundial 2026', 'World Cup 2026', 'FIFA 2026', 'Copa del Mundo',
-    'fase de grupos', 'octavos de final', 'cuartos de final',
-    'semifinal del Mundial', 'final del Mundial',
-    'round of 32', 'knockout stage',
-    'Estadio Azteca', 'Estadio Akron', 'Estadio BBVA',
-    'MetLife Stadium', 'SoFi Stadium', 'AT&T Stadium',
-    'sede del Mundial', 'anfitrión del Mundial',
-  ],
-
-  // --- EL TRI ---
-  mexico: [
-    'El Tri', 'Selección Mexicana', 'selección mexicana de futbol', 'FMF',
-    'Javier Aguirre',
-    // Porteros
-    'Guillermo Ochoa', 'Raúl Rangel',
-    // Defensas
-    'Edson Álvarez', 'Johan Vásquez', 'César Montes',
-    'Julián Araujo', 'Jorge Sánchez',
-    // Mediocampistas
-    'Luis Chávez', 'Orbelin Pineda', 'Efraín Álvarez',
-    'Obed Vargas', 'Álvaro Fidalgo',
-    // Delanteros
-    'Raúl Jiménez', 'Santiago Giménez', 'César Huerta',
-    'Roberto Alvarado', 'Julián Quiñones',
-  ],
-
-  // --- SELECCIONES (solo con contexto de selección, no nombre del país solo) ---
-  selecciones: [
-    'USMNT', 'USWNT', 'selección argentina', 'selección brasileña',
-    'selección española', 'selección francesa', 'selección inglesa',
-    'selección alemana', 'selección portuguesa', 'selección marroquí',
-    'selección uruguaya', 'selección colombiana',
-    'Les Bleus', 'Die Mannschaft', 'Azzurri', 'Three Lions',
-    'Albiceleste', 'Seleção',
-  ],
-
-  // --- ESTRELLAS (apellidos únicos en contexto deportivo) ---
-  jugadores: [
-    'Mbappé', 'Vinicius Jr', 'Bellingham', 'Lamine Yamal',
-    'Pedri', 'Rodri', 'Haaland', 'De Bruyne',
-    'Salah', 'Lewandowski', 'Son Heung-min',
-    'Raphinha', 'Rodrygo', 'Bruno Fernandes',
-  ],
-};
-
-// Flat array derived from KEYWORDS_WC2026 — used by the World Cup tab filter
-export const WORLDCUP_KEYWORDS = Object.values(KEYWORDS_WC2026).flat();
-
-/**
  * Global title blocklist — articles whose title contains any of these phrases
  * are dropped regardless of source or keyword matches.
  * Use for recurring SEO/clickbait patterns (daily price updates, horoscopes, etc.)
@@ -451,37 +392,11 @@ export const SOURCES = [
     domain: 'theguardian.com',
     filterKeywords: WORLD_KEYWORDS,
   },
-
-  // ─── WORLD CUP 2026 ⚠️ REMOVE AFTER JULY 19, 2026 ────────────────────────
-  // No filterKeywords on these sources — they are 100% sports media.
-  // Client-side matchesWorldCup() in Feed.jsx handles the keyword filter for the
-  // World Cup tab. Removing the server-side filter lets more relevant articles through.
-  {
-    id: 'foxsports-mx',
-    name: 'Fox Sports MX',
-    url: 'https://www.foxsports.com.mx/arc/outboundfeeds/rss/?outputType=xml',
-    category: 'worldcup',
-    domain: 'foxsports.com.mx',
-  },
-  {
-    id: 'espn-soccer',
-    name: 'ESPN Soccer',
-    url: 'https://www.espn.com/espn/rss/soccer/news',
-    category: 'worldcup',
-    domain: 'espn.com',
-  },
-  {
-    id: 'marca-mundial',
-    name: 'MARCA Mundial',
-    url: 'https://e00-marca.uecdn.es/rss/futbol/mundial.xml',
-    category: 'worldcup',
-    domain: 'marca.com',
-  },
 ];
 
 /**
  * Bluesky handles to follow.
- * Each entry needs: handle (full Bluesky handle) and category ('mexico' | 'international' | 'worldcup')
+ * Each entry needs: handle (full Bluesky handle) and category ('mexico' | 'international')
  * The category determines which tab the posts appear in — same as RSS sources.
  */
 export const BLUESKY_HANDLES = [
