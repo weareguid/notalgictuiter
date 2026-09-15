@@ -150,6 +150,10 @@ export async function POST(request) {
 
   try {
     if (message.photo && message.photo.length) {
+      if (!process.env.ANTHROPIC_API_KEY) {
+        await sendMessage(chatId, 'I can\'t read screenshots right now — text me "Artist - Title" instead and I\'ll add it.');
+        return NextResponse.json({ ok: true });
+      }
       const largest = message.photo[message.photo.length - 1];
       const imageUrl = await getFileUrl(largest.file_id);
       const { artist, title } = await identifySong(imageUrl);
@@ -165,7 +169,7 @@ export async function POST(request) {
         await sendMessage(chatId, `Searching for ${m[1]} — ${m[2]}…`);
         await handleSongLookup(chatId, m[1], m[2]);
       } else if (!message.text.startsWith('/')) {
-        await sendMessage(chatId, 'Send a screenshot, or text me "Artist - Title" directly.');
+        await sendMessage(chatId, 'Text me "Artist - Title" and I\'ll add it to the playlist.');
       }
     }
   } catch (err) {
