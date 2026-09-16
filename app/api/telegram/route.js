@@ -104,16 +104,25 @@ async function ensurePlaylistId(token) {
   if (process.env.SPOTIFY_PLAYLIST_ID) {
     return { id: process.env.SPOTIFY_PLAYLIST_ID, justCreated: false };
   }
-  const me = await fetch('https://api.spotify.com/v1/me', { headers: { Authorization: `Bearer ${token}` } }).then((r) => r.json());
-  const created = await fetch(`https://api.spotify.com/v1/users/${me.id}/playlists`, {
+  const meRes = await fetch('https://api.spotify.com/v1/me', { headers: { Authorization: `Bearer ${token}` } });
+  const meBody = await meRes.text();
+  if (!meRes.ok) throw new Error(`spotify /me HTTP ${meRes.status}: ${meBody.slice(0, 300)}`);
+  const me = JSON.parse(meBody);
+
+  const createRes = await fetch(`https://api.spotify.com/v1/users/${me.id}/playlists`, {
     method: 'POST',
     headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
       name: 'Radar Sonoro',
-      description: 'Songs caught from Telegram screenshots — read by radarsonoro.',
+      description: 'Songs caught from Telegram — read by Radar Sonoro.',
       public: true,
     }),
-  }).then((r) => r.json());
+  });
+  const createBody = await createRes.text();
+  if (!createRes.ok) {
+    throw new Error(`spotify create playlist HTTP ${createRes.status}: ${createBody.slice(0, 300)}`);
+  }
+  const created = JSON.parse(createBody);
   console.log(`Created playlist "Radar Sonoro": id=${created.id} url=${created.external_urls?.spotify}`);
   return { id: created.id, url: created.external_urls?.spotify, justCreated: true };
 }
@@ -124,7 +133,10 @@ async function addToPlaylist(token, playlistId, trackUri) {
     headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({ uris: [trackUri] }),
   });
-  if (!res.ok) throw new Error(`spotify add HTTP ${res.status}`);
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`spotify add HTTP ${res.status}: ${body.slice(0, 300)}`);
+  }
 }
 
 async function handleSongLookup(chatId, artist, title) {
@@ -144,7 +156,8 @@ async function handleSongLookup(chatId, artist, title) {
     await sendMessage(chatId, `Added: ${foundArtist} — ${track.name}\n${track.external_urls.spotify}${suffix}`);
   } catch (err) {
     console.error('spotify pipeline failed', err);
-    await sendMessage(chatId, "Couldn't reach Spotify just now. Reply the same message again in a bit.");
+    const detail = String(err?.message || err).slice(0, 300);
+    await sendMessage(chatId, `Spotify step failed:\n${detail}`);
   }
 }
 
