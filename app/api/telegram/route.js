@@ -96,8 +96,29 @@ async function searchTrack(token, artist, title) {
   return json.tracks?.items?.[0] || null;
 }
 
-async function addToPlaylist(token, trackUri) {
-  const playlistId = process.env.SPOTIFY_PLAYLIST_ID;
+// No persistent storage in this function, so the playlist id normally comes
+// from SPOTIFY_PLAYLIST_ID. Until that's set, create one on first use and
+// log it clearly — set the env var from that log and redeploy once, so every
+// later run reuses the same playlist instead of creating a new one each time.
+async function ensurePlaylistId(token) {
+  if (process.env.SPOTIFY_PLAYLIST_ID) {
+    return { id: process.env.SPOTIFY_PLAYLIST_ID, justCreated: false };
+  }
+  const me = await fetch('https://api.spotify.com/v1/me', { headers: { Authorization: `Bearer ${token}` } }).then((r) => r.json());
+  const created = await fetch(`https://api.spotify.com/v1/users/${me.id}/playlists`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: 'Radar Sonoro',
+      description: 'Songs caught from Telegram screenshots — read by radarsonoro.',
+      public: true,
+    }),
+  }).then((r) => r.json());
+  console.log(`Created playlist "Radar Sonoro": id=${created.id} url=${created.external_urls?.spotify}`);
+  return { id: created.id, url: created.external_urls?.spotify, justCreated: true };
+}
+
+async function addToPlaylist(token, playlistId, trackUri) {
   const res = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
     method: 'POST',
     headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
@@ -114,9 +135,13 @@ async function handleSongLookup(chatId, artist, title) {
       await sendMessage(chatId, `Couldn't find "${title}" by ${artist} on Spotify. Reply with a corrected "Artist - Title" and I'll try again.`);
       return;
     }
-    await addToPlaylist(token, track.uri);
+    const playlist = await ensurePlaylistId(token);
+    await addToPlaylist(token, playlist.id, track.uri);
     const foundArtist = track.artists.map((a) => a.name).join(', ');
-    await sendMessage(chatId, `Added: ${foundArtist} — ${track.name}\n${track.external_urls.spotify}`);
+    const suffix = playlist.justCreated
+      ? `\n\n(First song — created the "Radar Sonoro" playlist: ${playlist.url})`
+      : '';
+    await sendMessage(chatId, `Added: ${foundArtist} — ${track.name}\n${track.external_urls.spotify}${suffix}`);
   } catch (err) {
     console.error('spotify pipeline failed', err);
     await sendMessage(chatId, "Couldn't reach Spotify just now. Reply the same message again in a bit.");
