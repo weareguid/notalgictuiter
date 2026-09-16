@@ -51,6 +51,7 @@ export async function GET() {
       return NextResponse.json({ ok: false, step: 'refresh', status: res.status, spotifyError: json.error, spotifyErrorDescription: json.error_description, present, shape });
     }
     token = json.access_token;
+    shape.grantedScopes = json.scope || '(none reported)';
   } catch (err) {
     return NextResponse.json({ ok: false, step: 'refresh', message: String(err.message || err), present, shape });
   }
