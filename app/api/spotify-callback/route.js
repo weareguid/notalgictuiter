@@ -28,10 +28,15 @@ export async function GET(request) {
   const json = await res.json();
   if (!res.ok) return page(`<p>Token exchange failed:</p><pre>${JSON.stringify(json, null, 2)}</pre>`);
 
+  const token = json.refresh_token || '';
   return page(`
-    <p>Connected. Copy this value and save it yourself as the <b>SPOTIFY_REFRESH_TOKEN</b> environment variable
-    in the Vercel dashboard — this page does not store it anywhere.</p>
-    <p style="background:#222;padding:12px;border-radius:4px;word-break:break-all">${json.refresh_token}</p>
-    <p>Once saved, you can close this tab.</p>
+    <p>Connected. Save this as the <b>SPOTIFY_REFRESH_TOKEN</b> environment variable in the Vercel
+    dashboard — this page does not store it anywhere.</p>
+    <p>Tap the box to select all ${token.length} characters, then copy:</p>
+    <input readonly value="${token}" onclick="this.select()"
+      style="width:100%;padding:12px;font-family:monospace;font-size:14px;background:#222;color:#eee;border:1px solid #444;border-radius:4px">
+    <p><button onclick="navigator.clipboard.writeText(document.querySelector('input').value).then(()=>{this.textContent='Copied ✓'})"
+      style="padding:10px 16px;font-family:monospace;font-size:14px;background:#1DB954;color:#0B0B0B;border:none;border-radius:4px;cursor:pointer">Copy to clipboard</button></p>
+    <p style="color:#888;font-size:13px">It should be ${token.length} characters long. If what you paste into Vercel is shorter, it got cut off — come back and copy again.</p>
   `);
 }
