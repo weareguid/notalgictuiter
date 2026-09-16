@@ -21,6 +21,18 @@ export async function GET() {
     return NextResponse.json({ ok: false, step: 'env', present });
   }
 
+  // Shape only — never the values. Distinguishes a truncated or whitespace-
+  // padded paste from a token that is simply the wrong one.
+  const rt = process.env.SPOTIFY_REFRESH_TOKEN || '';
+  const cs = process.env.SPOTIFY_CLIENT_SECRET || '';
+  const shape = {
+    refreshTokenLength: rt.length,
+    refreshTokenHasWhitespace: rt !== rt.trim(),
+    clientSecretLength: cs.length,
+    clientSecretHasWhitespace: cs !== cs.trim(),
+    clientIdLength: (process.env.SPOTIFY_CLIENT_ID || '').length,
+  };
+
   let token;
   try {
     const res = await fetch('https://accounts.spotify.com/api/token', {
@@ -36,11 +48,11 @@ export async function GET() {
     });
     const json = await res.json();
     if (!res.ok) {
-      return NextResponse.json({ ok: false, step: 'refresh', status: res.status, spotifyError: json.error, spotifyErrorDescription: json.error_description, present });
+      return NextResponse.json({ ok: false, step: 'refresh', status: res.status, spotifyError: json.error, spotifyErrorDescription: json.error_description, present, shape });
     }
     token = json.access_token;
   } catch (err) {
-    return NextResponse.json({ ok: false, step: 'refresh', message: String(err.message || err), present });
+    return NextResponse.json({ ok: false, step: 'refresh', message: String(err.message || err), present, shape });
   }
 
   try {
@@ -55,6 +67,7 @@ export async function GET() {
       country: me.country,
       product: me.product,
       present,
+      shape,
       note: 'Credentials work. Playlist will be created on the first song if SPOTIFY_PLAYLIST_ID is not set.',
     });
   } catch (err) {
