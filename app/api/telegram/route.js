@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
 
-// Telegram webhook: receives a screenshot, asks Claude what song it is,
-// searches Spotify, and adds it to a fixed playlist. Replies land back in
-// the same Telegram chat, which doubles as the log — no separate database.
+// Telegram webhook: you text it "Artist - Title", it resolves the track on
+// Spotify (read-only) and appends it to Radar Sonoro's data/inbox.json, which
+// the site renders as a bar you can play from. It never writes to the Spotify
+// account — keeping a song is a manual save into your own playlist.
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 30;
@@ -69,19 +70,22 @@ async function identifySong(imageUrl) {
   return match ? JSON.parse(match[0]) : { artist: null, title: null };
 }
 
-async function getSpotifyUserToken() {
+// App-only auth (Client Credentials): enough to search the catalog. The bot
+// never writes to the Spotify account — songs land in Radar Sonoro's own
+// data file, and anything worth keeping gets saved to a playlist by hand.
+async function getSpotifyAppToken() {
   const res = await fetch('https://accounts.spotify.com/api/token', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       Authorization: 'Basic ' + Buffer.from(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64'),
     },
-    body: new URLSearchParams({
-      grant_type: 'refresh_token',
-      refresh_token: process.env.SPOTIFY_REFRESH_TOKEN,
-    }),
+    body: 'grant_type=client_credentials',
   });
-  if (!res.ok) throw new Error(`spotify token refresh HTTP ${res.status}`);
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`spotify app token HTTP ${res.status}: ${body.slice(0, 200)}`);
+  }
   const json = await res.json();
   return json.access_token;
 }
@@ -96,68 +100,88 @@ async function searchTrack(token, artist, title) {
   return json.tracks?.items?.[0] || null;
 }
 
-// No persistent storage in this function, so the playlist id normally comes
-// from SPOTIFY_PLAYLIST_ID. Until that's set, create one on first use and
-// log it clearly — set the env var from that log and redeploy once, so every
-// later run reuses the same playlist instead of creating a new one each time.
-async function ensurePlaylistId(token) {
-  if (process.env.SPOTIFY_PLAYLIST_ID) {
-    return { id: process.env.SPOTIFY_PLAYLIST_ID, justCreated: false };
-  }
-  const meRes = await fetch('https://api.spotify.com/v1/me', { headers: { Authorization: `Bearer ${token}` } });
-  const meBody = await meRes.text();
-  if (!meRes.ok) throw new Error(`spotify /me HTTP ${meRes.status}: ${meBody.slice(0, 300)}`);
-  const me = JSON.parse(meBody);
+const REPO = 'weareguid/radar-sonoro';
+const INBOX_PATH = 'data/inbox.json';
+const MAX_ENTRIES = 120;
 
-  const createRes = await fetch(`https://api.spotify.com/v1/users/${me.id}/playlists`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      name: 'Radar Sonoro',
-      description: 'Songs caught from Telegram — read by Radar Sonoro.',
-      public: true,
-    }),
+async function gh(path, options = {}) {
+  const res = await fetch(`https://api.github.com/repos/${REPO}/${path}`, {
+    ...options,
+    headers: {
+      Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+      Accept: 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+      ...(options.headers || {}),
+    },
   });
-  const createBody = await createRes.text();
-  if (!createRes.ok) {
-    throw new Error(`spotify create playlist HTTP ${createRes.status}: ${createBody.slice(0, 300)}`);
-  }
-  const created = JSON.parse(createBody);
-  console.log(`Created playlist "Radar Sonoro": id=${created.id} url=${created.external_urls?.spotify}`);
-  return { id: created.id, url: created.external_urls?.spotify, justCreated: true };
+  return res;
 }
 
-async function addToPlaylist(token, playlistId, trackUri) {
-  const res = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ uris: [trackUri] }),
-  });
-  if (!res.ok) {
-    const body = await res.text();
-    throw new Error(`spotify add HTTP ${res.status}: ${body.slice(0, 300)}`);
+// Append to Radar Sonoro's own data file. Read-modify-write against the
+// blob sha, so a second message arriving mid-write fails loudly rather than
+// silently dropping the earlier one.
+async function appendToInbox(entry) {
+  let existing = [];
+  let sha;
+  const getRes = await gh(`contents/${INBOX_PATH}`);
+  if (getRes.ok) {
+    const file = await getRes.json();
+    sha = file.sha;
+    try {
+      existing = JSON.parse(Buffer.from(file.content, 'base64').toString('utf8'));
+      if (!Array.isArray(existing)) existing = [];
+    } catch {
+      existing = [];
+    }
+  } else if (getRes.status !== 404) {
+    const body = await getRes.text();
+    throw new Error(`github read HTTP ${getRes.status}: ${body.slice(0, 200)}`);
   }
+
+  const next = [entry, ...existing].slice(0, MAX_ENTRIES);
+  const putRes = await gh(`contents/${INBOX_PATH}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      message: `inbox: ${entry.artist} — ${entry.title}`,
+      content: Buffer.from(JSON.stringify(next, null, 2), 'utf8').toString('base64'),
+      ...(sha ? { sha } : {}),
+    }),
+  });
+  if (!putRes.ok) {
+    const body = await putRes.text();
+    throw new Error(`github write HTTP ${putRes.status}: ${body.slice(0, 200)}`);
+  }
+  return next.length;
 }
 
 async function handleSongLookup(chatId, artist, title) {
   try {
-    const token = await getSpotifyUserToken();
+    const token = await getSpotifyAppToken();
     const track = await searchTrack(token, artist, title);
     if (!track) {
       await sendMessage(chatId, `Couldn't find "${title}" by ${artist} on Spotify. Reply with a corrected "Artist - Title" and I'll try again.`);
       return;
     }
-    const playlist = await ensurePlaylistId(token);
-    await addToPlaylist(token, playlist.id, track.uri);
-    const foundArtist = track.artists.map((a) => a.name).join(', ');
-    const suffix = playlist.justCreated
-      ? `\n\n(First song — created the "Radar Sonoro" playlist: ${playlist.url})`
-      : '';
-    await sendMessage(chatId, `Added: ${foundArtist} — ${track.name}\n${track.external_urls.spotify}${suffix}`);
+    const entry = {
+      artist: track.artists.map((a) => a.name).join(', '),
+      title: track.name,
+      trackId: track.id,
+      spotifyUrl: track.external_urls.spotify,
+      artworkUrl: track.album?.images?.[1]?.url || track.album?.images?.[0]?.url || null,
+      album: track.album?.name || null,
+      addedAt: new Date().toISOString(),
+    };
+    const count = await appendToInbox(entry);
+    await sendMessage(
+      chatId,
+      `In the bar: ${entry.artist} — ${entry.title}\n` +
+        `https://nostalgictuiter.com/radarsonoro\n\n` +
+        `(${count} in the inbox — takes a minute to show up while the site rebuilds.)`
+    );
   } catch (err) {
-    console.error('spotify pipeline failed', err);
+    console.error('lookup pipeline failed', err);
     const detail = String(err?.message || err).slice(0, 300);
-    await sendMessage(chatId, `Spotify step failed:\n${detail}`);
+    await sendMessage(chatId, `Failed:\n${detail}`);
   }
 }
 
